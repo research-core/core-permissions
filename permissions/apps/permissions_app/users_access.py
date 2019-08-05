@@ -2,6 +2,7 @@ from pyforms.controls import ControlQueryList, ControlAutoComplete
 from pyforms.basewidget import BaseWidget
 from django.contrib.auth.models import User
 from people.models import Person
+
 from humanresources.models import Contract, ContractProposal
 from orders.models import Order
 
