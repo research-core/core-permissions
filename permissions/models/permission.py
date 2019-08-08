@@ -45,27 +45,41 @@ class Permission(models.Model):
 
     @property
     def order(self):
-        from orders.models import Order
-        return self.__list_permissions(Order)
-    
+        try:
+            from orders.models import Order
+            return self.__list_permissions(Order)
+        except:
+            return None
+
     @property
     def proposal(self):
-        from humanresources.models import ContractProposal
-        return self.__list_permissions(ContractProposal)
-    
+        try:
+            from humanresources.models import ContractProposal
+            return self.__list_permissions(ContractProposal)
+        except:
+            return None
+
     @property
     def contract(self):
-        from humanresources.models import Contract
-        return self.__list_permissions(Contract)
+        try:
+            from humanresources.models import Contract
+            return self.__list_permissions(Contract)
+        except:
+            return None
 
     @property
     def person(self):
-        from people.models import Person
-        return self.__list_permissions(Person)
+        try:
+            from people.models import Person
+            return self.__list_permissions(Person)
+        except:
+            return None
 
     @property
     def publication(self):
-        from research.models import Publication
-        return self.__list_permissions(Publication)
-
+        try:
+            from research.models import Publication
+            return self.__list_permissions(Publication)
+        except:
+            return None
     

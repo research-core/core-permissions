@@ -37,7 +37,7 @@ class GroupMembersWidget(BaseWidget):
             users = users.values_list('username', flat=True)
         elif isinstance(self.group, ResearchGroup):
             people = self.group.members.all()
-            users = [person.djangouser.username for person in people]
+            users = [person.auth_user.username for person in people]
         else:
             raise ValueError('Invalid group type')
 
@@ -99,7 +99,7 @@ class PermissionsFormWidget(ModelFormWidget):
     AUTHORIZED_GROUPS = ['superuser']
 
     READ_ONLY = (
-        'djangouser',
+        'auth_user',
     )
 
     FIELDSETS = [
@@ -172,7 +172,11 @@ class PermissionsFormWidget(ModelFormWidget):
         """
 
         for model_name in self.MODELS_TO_MANAGE:
-            model = apps.get_model(model_name)
+            try:
+                model = apps.get_model(model_name)
+            except LookupError:
+                continue
+
             content_type = ContentType.objects.get_for_model(model)
 
             permissions = Permission.objects.filter(content_type=content_type)

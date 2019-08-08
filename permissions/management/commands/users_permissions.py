@@ -18,7 +18,7 @@ class Command(BaseCommand):
             report = False
 
             try:
-                person = Person.objects.get(djangouser=user)
+                person = Person.objects.get(auth_user=user)
             except Person.DoesNotExist:
                 person = None
 

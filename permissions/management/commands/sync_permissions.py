@@ -158,7 +158,7 @@ class Command(BaseCommand):
             # make sure the Group Head is assigned to the Admin Profile
             if profile == 'admin':
                 try:
-                    group_admin_user = research_group.person.djangouser
+                    group_admin_user = research_group.person.auth_user
                 except AttributeError:
                     # no person is assigned as Group Head
                     pass

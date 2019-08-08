@@ -15,9 +15,9 @@ class PermissionsListWidget(ModelAdminWidget):
 
     MODEL = Permission
 
-    ORQUESTRA_MENU = 'left'
-    ORQUESTRA_MENU_ICON = 'lock'
-    ORQUESTRA_MENU_ORDER = 1000
+    ORQUESTRA_MENU = 'top'
+    ORQUESTRA_MENU_ICON = 'red lock'
+    ORQUESTRA_MENU_ORDER = 10000
 
     LIST_ROWS_PER_PAGE = 30
 
