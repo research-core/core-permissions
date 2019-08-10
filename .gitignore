@@ -2,3 +2,7 @@
 core_permissions\.egg-info/
 
 *.pyc
+
+build/
+
+dist/
