@@ -30,11 +30,11 @@ class PermissionsListWidget(ModelAdminWidget):
 
     READ_ONLY = ['order', 'person', 'proposal', 'contract']
 
-    SEARCH_FIELDS = ['djangogroup__name__icontains']
+    SEARCH_FIELDS = ['auth_group__name__icontains']
 
     LIST_DISPLAY = [
         'ranking',
-        'djangogroup',
+        'auth_group',
         'researchgroup',
         'order',
         'person',
@@ -44,8 +44,8 @@ class PermissionsListWidget(ModelAdminWidget):
     ]
 
     LIST_FILTER = [
-        'djangogroup__user__username',
-        'djangogroup',
+        'auth_group__user__username',
+        'auth_group',
         'researchgroup',
         'ranking',
     ]

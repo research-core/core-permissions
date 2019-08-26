@@ -167,7 +167,7 @@ class Command(BaseCommand):
 
             if created:
                 RankedPermissions.objects.create(
-                    djangogroup=auth_group,
+                    auth_group=auth_group,
                     researchgroup=research_group,
                     ranking=PROFILE_RANKS[profile],
                 )

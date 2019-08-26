@@ -104,7 +104,7 @@ class PermissionsFormWidget(ModelFormWidget):
 
     FIELDSETS = [
         ('ranking', ' '),
-        no_columns('djangogroup', '_editgrpbtn', '_newgrpbtn', ' ', 'researchgroup', '_users_in_research_group_detail_btn'),
+        no_columns('auth_group', '_editgrpbtn', '_newgrpbtn', ' ', 'researchgroup', '_users_in_research_group_detail_btn'),
         '_members',
     ]
 
@@ -147,10 +147,10 @@ class PermissionsFormWidget(ModelFormWidget):
             queryset_filter=self.__members_queryset_filter
         )
 
-        self.djangogroup.field_css = 'fourteen wide'
+        self.auth_group.field_css = 'fourteen wide'
         self.researchgroup.field_css = 'fourteen wide'
 
-        self.djangogroup.update_control_event = self.__group_selection_changed
+        self.auth_group.update_control_event = self.__group_selection_changed
         self.researchgroup.update_control_event = self.__group_selection_changed
 
         # Create the permissions controls
@@ -200,8 +200,8 @@ class PermissionsFormWidget(ModelFormWidget):
         """
         Configure the permissions checkboxes for the selected django group
         """
-        if self.djangogroup.value:
-            grpid = self.djangogroup.value
+        if self.auth_group.value:
+            grpid = self.auth_group.value
             grp = AuthGroup.objects.get(pk=grpid)
             for perm in Permission.objects.all():
                 if hasattr(self, perm.codename):
@@ -235,7 +235,7 @@ class PermissionsFormWidget(ModelFormWidget):
 
         # Save the group users
         users = User.objects.filter(pk__in=self._members.value)
-        obj.djangogroup.user_set.set(users)
+        obj.auth_group.user_set.set(users)
 
         # Save the permissions to the group
         permissions = []
@@ -243,7 +243,7 @@ class PermissionsFormWidget(ModelFormWidget):
             field = getattr(self, perm.codename)
             if field.value:
                 permissions.append(perm)
-        obj.djangogroup.permissions.set(permissions)
+        obj.auth_group.permissions.set(permissions)
 
         return obj
 
@@ -251,8 +251,8 @@ class PermissionsFormWidget(ModelFormWidget):
         EditGroupWindow(title='Create a new profile')
 
     def __edit_profile_btn_evt(self):
-        if self.djangogroup.value:
-            obj = AuthGroup.objects.get(pk=self.djangogroup.value)
+        if self.auth_group.value:
+            obj = AuthGroup.objects.get(pk=self.auth_group.value)
             EditGroupWindow(title='Rename Profile', group=obj)
             # TODO update value in combobox
 
@@ -271,8 +271,8 @@ class PermissionsFormWidget(ModelFormWidget):
         return qs
 
     def __populate_members(self):
-        if self.djangogroup.value:
-            grp = AuthGroup.objects.get(pk=self.djangogroup.value)
+        if self.auth_group.value:
+            grp = AuthGroup.objects.get(pk=self.auth_group.value)
             self._members.value = [obj.pk for obj in grp.user_set.all()]
         else:
             self._members.value = []
@@ -290,7 +290,7 @@ class PermissionsFormWidget(ModelFormWidget):
     def autocomplete_search(self, queryset, keyword, control):
         qs = super().autocomplete_search(queryset, keyword, control)
 
-        if control.name == 'djangogroup' and keyword is not None:
+        if control.name == 'auth_group' and keyword is not None:
             return qs.filter(name__icontains=keyword)
         else:
             return qs
@@ -301,7 +301,7 @@ class PermissionsFormWidget(ModelFormWidget):
         if obj is None:
             return ModelFormWidget.title.fget(self)
         else:
-            return "Permissions: {0}-{1}".format(obj.djangogroup, obj.researchgroup)
+            return "Permissions: {0}-{1}".format(obj.auth_group, obj.researchgroup)
 
     @title.setter
     def title(self, value):

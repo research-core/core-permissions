@@ -19,11 +19,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('permissions_id', models.AutoField(primary_key=True, serialize=False)),
                 ('ranking', models.PositiveSmallIntegerField(default=0, verbose_name='Rank')),
-                ('djangogroup', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rankedpermissions', to='auth.Group', verbose_name='Django group')),
+                ('auth_group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rankedpermissions', to='auth.Group', verbose_name='Django group')),
                 ('researchgroup', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='rankedpermissions', to='people.Group', verbose_name='Research group')),
             ],
             options={
-                'ordering': ['djangogroup', 'researchgroup', 'ranking'],
+                'ordering': ['auth_group', 'researchgroup', 'ranking'],
             },
         ),
     ]

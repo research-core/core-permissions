@@ -31,4 +31,4 @@ class PermissionQuerySet(models.QuerySet):
             permissions__content_type=contenttype,
         )
 
-        return self.filter(djangogroup__in=auth_groups)
+        return self.filter(auth_group__in=auth_groups)

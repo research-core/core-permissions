@@ -13,19 +13,19 @@ class Permission(models.Model):
 
     ranking = models.PositiveSmallIntegerField('Rank', default=0)
 
-    djangogroup   = models.ForeignKey('auth.Group',     related_name='rankedpermissions', verbose_name='Django group', on_delete=models.CASCADE)
+    auth_group   = models.ForeignKey('auth.Group',     related_name='rankedpermissions', verbose_name='Django group', on_delete=models.CASCADE)
     researchgroup = models.ForeignKey('people.Group', related_name='rankedpermissions', verbose_name='Research group', blank=True, null=True, on_delete=models.CASCADE)
 
     objects = PermissionQuerySet.as_manager()
 
     class Meta:
-        ordering = ['djangogroup', 'researchgroup', 'ranking']
+        ordering = ['auth_group', 'researchgroup', 'ranking']
 
 
     def __str__(self):
-        return "<Group: {djangogroup} - Reseach: {researchgroup}>".format(
+        return "<Group: {auth_group} - Reseach: {researchgroup}>".format(
             researchgroup=self.researchgroup,
-            djangogroup=self.djangogroup
+            auth_group=self.auth_group
         )
 
     def __list_permissions(self, model):
@@ -33,7 +33,7 @@ class Permission(models.Model):
         
         html = "<div class='ui list'>"
         for obj in Permission.objects.filter(content_type=contenttype).order_by('name'):
-            if obj in self.djangogroup.permissions.all():
+            if obj in self.auth_group.permissions.all():
                 icon = "check circle green"
             else:
                 icon = "times circle red"
