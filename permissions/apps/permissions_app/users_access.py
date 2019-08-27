@@ -33,10 +33,10 @@ class UsersAccesses(BaseWidget):
 
         self._contracts = ControlQueryList('Contracts', 
             default=Contract.objects.filter(pk=None),
-            list_display=['person', 'contract_ref', 'position', 'contract_start', 'contract_end', 'is_active'] )
+            list_display=['person', 'ref', 'position', 'start', 'end', 'is_active'] )
         self._proposals = ControlQueryList('Proposals', 
             default=ContractProposal.objects.filter(pk=None),
-            list_display=['personname', 'position', 'contractproposal_start', 'end_date', 'supervisor', 'status_icon'])
+            list_display=['personname', 'position', 'start', 'end_date', 'supervisor', 'status_icon'])
         self._people    = ControlQueryList('People',    
             default=Person.objects.filter(pk=None),
             list_display=['thumbnail_80x80', 'full_name', 'person_email', 'person_active'])
